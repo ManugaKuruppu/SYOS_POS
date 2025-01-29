@@ -25,8 +25,9 @@ public class Main {
             System.out.println("4. Add Item");
             System.out.println("5. Process Payment");
             System.out.println("6. View Stock");
-            System.out.println("7. View Shelf Items"); // New option
-            System.out.println("8. Exit");
+            System.out.println("7. View Shelf Items");
+            System.out.println("8. View Stock Status"); // New option
+            System.out.println("9. Exit");
             System.out.print("Choose an option: ");
             int choice = Integer.parseInt(scanner.nextLine());
 
@@ -54,9 +55,12 @@ public class Main {
                     stockController.viewStock();
                     break;
                 case 7:
-                    shelfController.viewShelfItems(); // New option handling
+                    shelfController.viewShelfItems();
                     break;
                 case 8:
+                    stockController.viewStockStatus(); // New option handling
+                    break;
+                case 9:
                     System.out.println("Exiting SYOS Billing System. Goodbye!");
                     scanner.close();
                     System.exit(0);

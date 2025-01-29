@@ -4,16 +4,41 @@ import dao.StockDAO;
 import dao.ShelfDAO;
 import model.Stock;
 import model.Shelf;
+import observer.Observer;
+import observer.Subject;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StockService {
+public class StockService implements Subject {
     private StockDAO stockDAO;
     private ShelfDAO shelfDAO;
+    private List<Observer> observers;
+    private String lowStockItemCode;
+    private int lowStockQuantity;
 
     public StockService() {
         stockDAO = new StockDAO();
         shelfDAO = new ShelfDAO();
+        observers = new ArrayList<>();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        System.out.println("Notifying observers about low stock: " + lowStockItemCode + " with quantity: " + lowStockQuantity);
+        for (Observer observer : observers) {
+            observer.update(lowStockItemCode, lowStockQuantity);
+        }
     }
 
     public boolean addStock(Stock stock) {
@@ -25,35 +50,61 @@ public class StockService {
         return stockDAO.addStock(stock);
     }
 
-    public Stock getStockById(int id) {
-        return stockDAO.getStockById(id);
-    }
+    public boolean moveStockToShelf(String itemCode, int quantity) {
+        List<Stock> stockList = stockDAO.getStockByItemCodeOrderedByExpiryDate(itemCode);
+        int remainingQuantity = quantity;
 
-    public boolean moveStockToShelf(int stockId, int quantity) {
-        Stock stock = stockDAO.getStockById(stockId);
-        if (stock == null) {
-            System.out.println("Stock not found with ID: " + stockId);
+        try {
+            for (Stock stock : stockList) {
+                if (remainingQuantity <= 0) break;
+
+                int availableQuantity = stock.getQuantity();
+                int reduceQuantity = Math.min(availableQuantity, remainingQuantity);
+
+                if (reduceQuantity > 0) {
+                    // Deduct the quantity from stock
+                    stock.setQuantity(stock.getQuantity() - reduceQuantity);
+                    stockDAO.updateStock(stock);
+
+                    // Check if there is already a shelf item with the same item code and expiry date
+                    Shelf existingShelfItem = shelfDAO.getShelfItemByItemCodeAndExpiryDate(itemCode, stock.getExpiryDate().toString());
+                    if (existingShelfItem != null) {
+                        // Update the existing shelf item quantity
+                        existingShelfItem.setQuantity(existingShelfItem.getQuantity() + reduceQuantity);
+                        shelfDAO.updateShelfItem(existingShelfItem);
+                    } else {
+                        // Create a new Shelf item with the reduced quantity
+                        Shelf shelf = new Shelf();
+                        shelf.setItemCode(stock.getItemCode());
+                        shelf.setQuantity(reduceQuantity);
+                        shelf.setExpiryDate(stock.getExpiryDate().toString());
+
+                        // Insert shelf item
+                        shelfDAO.addShelf(shelf);
+                    }
+
+                    remainingQuantity -= reduceQuantity;
+                }
+            }
+
+            // Notify observers if stock is low
+            int totalStock = stockDAO.getTotalStockByItemCode(itemCode);
+            System.out.println("Total stock for item code " + itemCode + " is " + totalStock);
+            if (totalStock < 5) { // assuming 5 is the threshold for low stock
+                lowStockItemCode = itemCode;
+                lowStockQuantity = totalStock;
+                notifyObservers();
+            }
+
+            // Return true if we have moved the exact required quantity to the shelf, otherwise false
+            return remainingQuantity == 0;
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
-        if (stock.getQuantity() < quantity) {
-            System.out.println("Not enough stock to move. Available quantity: " + stock.getQuantity());
-            return false;
-        }
-        // Deduct the quantity from stock and add it to the shelf
-        stock.setQuantity(stock.getQuantity() - quantity);
-        stockDAO.updateStock(stock);
-
-        Shelf shelf = new Shelf();
-        shelf.setItemCode(stock.getItemCode());
-        shelf.setQuantity(quantity);
-        shelf.setExpiryDate(stock.getExpiryDate().toString());
-
-        return shelfDAO.addShelf(shelf);
     }
 
     public List<Stock> getAllStock() {
         return stockDAO.getAllStock();
     }
-
-
 }

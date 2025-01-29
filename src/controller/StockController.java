@@ -1,6 +1,7 @@
 package controller;
 
 import model.Stock;
+import observer.StockObserver;
 import service.StockService;
 
 import java.sql.Date;
@@ -10,10 +11,13 @@ import java.util.Scanner;
 public class StockController {
     private StockService stockService;
     private Scanner scanner;
+    private StockObserver stockObserver;
 
     public StockController() {
         stockService = new StockService();
         scanner = new Scanner(System.in);
+        stockObserver = new StockObserver();
+        stockService.registerObserver(stockObserver);
     }
 
     public void manageStock() {
@@ -40,12 +44,12 @@ public class StockController {
     }
 
     public void moveStockToShelf() {
-        System.out.print("Enter stock ID: ");
-        int stockId = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter item code: ");
+        String itemCode = scanner.nextLine().trim();
         System.out.print("Enter quantity to move to shelf: ");
         int quantity = Integer.parseInt(scanner.nextLine());
 
-        if (stockService.moveStockToShelf(stockId, quantity)) {
+        if (stockService.moveStockToShelf(itemCode, quantity)) {
             System.out.println("Stock moved to shelf successfully!");
         } else {
             System.out.println("Failed to move stock to shelf.");
@@ -55,6 +59,10 @@ public class StockController {
     public void viewStock() {
         List<Stock> stockList = stockService.getAllStock();
         displayStock(stockList);
+    }
+
+    public void viewStockStatus() {
+        stockObserver.displayLowStockItems();
     }
 
     private void displayStock(List<Stock> stockList) {

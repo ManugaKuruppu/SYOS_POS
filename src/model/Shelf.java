@@ -7,6 +7,18 @@ public class Shelf {
     private String expiryDate;
     private String itemName;
 
+    public Shelf() {
+        // Default constructor
+    }
+
+    // Constructor to match 'Shelf()' cannot be applied to '(java.lang.String, java.lang.String, int, java.lang.String)'
+    public Shelf(String itemCode, String itemName, int quantity, String expiryDate) {
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.quantity = quantity;
+        this.expiryDate = expiryDate;
+    }
+
     // Getters and setters
     public int getShelfId() {
         return shelfId;
