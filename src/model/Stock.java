@@ -9,6 +9,17 @@ public class Stock {
     private int quantity;
     private Date expiryDate;
 
+
+    public Stock() {}
+
+    // Constructor with parameters
+    public Stock(int stockId, String itemCode, Date purchaseDate, int quantity, Date expiryDate) {
+        this.stockId = stockId;
+        this.itemCode = itemCode;
+        this.purchaseDate = purchaseDate;
+        this.quantity = quantity;
+        this.expiryDate = expiryDate;
+    }
     // Getters and setters
     public int getStockId() {
         return stockId;

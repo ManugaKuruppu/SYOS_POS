@@ -4,7 +4,7 @@ import dao.ItemsDAO;
 import model.Item;
 
 public class ItemsService {
-    private ItemsDAO itemsDAO;
+    ItemsDAO itemsDAO;
 
     public ItemsService() {
         itemsDAO = new ItemsDAO();

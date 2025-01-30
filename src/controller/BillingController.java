@@ -53,7 +53,7 @@ public class BillingController {
         }
     }
 
-    private void displayPreparedBill(Bill bill) {
+    public void displayPreparedBill(Bill bill) {
         System.out.println("\n================== BILL ==================");
         System.out.printf("%-10s %-15s %-10s %-10s %-10s %-10s%n", "Item Code", "Item Name", "Quantity", "Price", "Discount", "Total");
         System.out.println("------------------------------------------");
@@ -66,7 +66,7 @@ public class BillingController {
         System.out.println("==========================================");
     }
 
-    private void displayBill(Bill bill) {
+     public void displayBill(Bill bill) {
         System.out.println("\n================== BILL ==================");
         System.out.println("Bill ID: " + bill.getBillId());
         System.out.println("==========================================");
@@ -83,4 +83,6 @@ public class BillingController {
         System.out.printf("%-25s %-10.2f%n", "Change Amount:", bill.getChangeAmount());
         System.out.println("==========================================");
     }
+
+
 }

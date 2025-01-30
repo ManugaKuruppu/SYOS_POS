@@ -17,6 +17,17 @@ public class Bill {
         this.billItems = new ArrayList<>(); // Initialize billItems list
     }
 
+
+    // Constructor with parameters
+    public Bill(int billId, Timestamp billDate, double total, double finalTotal, double cashTendered, double changeAmount) {
+        this.billId = billId;
+        this.billDate = billDate;
+        this.total = total;
+        this.finalTotal = finalTotal;
+        this.cashTendered = cashTendered;
+        this.changeAmount = changeAmount;
+    }
+
     // Getters and setters
     public int getBillId() {
         return billId;

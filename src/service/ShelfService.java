@@ -6,7 +6,7 @@ import model.ShelfItem;
 import java.util.List;
 
 public class ShelfService {
-    private ShelfDAO shelfDAO;
+    ShelfDAO shelfDAO;
 
     public ShelfService() {
         shelfDAO = new ShelfDAO();

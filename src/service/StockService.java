@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockService implements Subject {
-    private StockDAO stockDAO;
-    private ShelfDAO shelfDAO;
+    StockDAO stockDAO;
+    ShelfDAO shelfDAO;
     private List<Observer> observers;
     private String lowStockItemCode;
     private int lowStockQuantity;

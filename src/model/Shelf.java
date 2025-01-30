@@ -19,6 +19,13 @@ public class Shelf {
         this.expiryDate = expiryDate;
     }
 
+    public Shelf(String itemCode, int quantity, String expiryDate) {
+        this.itemCode = itemCode;
+        this.quantity = quantity;
+        this.expiryDate = expiryDate;
+    }
+
+
     // Getters and setters
     public int getShelfId() {
         return shelfId;
@@ -59,4 +66,7 @@ public class Shelf {
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
+
+
+
 }

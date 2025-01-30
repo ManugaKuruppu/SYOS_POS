@@ -46,4 +46,14 @@ public class ShelfItem {
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
+
+    @Override
+    public String toString() {
+        return "ShelfItem{" +
+                "itemCode='" + itemCode + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", quantity=" + quantity +
+                ", expiryDate='" + expiryDate + '\'' +
+                '}';
+    }
 }

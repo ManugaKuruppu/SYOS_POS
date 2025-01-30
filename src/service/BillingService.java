@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillingService {
-    private BillDAO billDAO;
-    private BillItemDAO billItemDAO;
-    private ItemDAO itemDAO;
-    private ShelfDAO shelfDAO;
+    BillDAO billDAO;
+    BillItemDAO billItemDAO;
+    ItemDAO itemDAO;
+    ShelfDAO shelfDAO;
 
     public BillingService() {
         billDAO = new BillDAO();

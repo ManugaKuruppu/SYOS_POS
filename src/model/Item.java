@@ -8,7 +8,9 @@ public class Item {
     private String itemName;   // Name of the item
     private int categoryId;    // ID of the category to which the item belongs
     private double price;      // Price of the item
-    private double discount;   // Discount percentage on the item
+    private double discount;
+    private int quantity;
+    // Discount percentage on the item
 
     // No-argument constructor
     public Item() {
@@ -80,6 +82,14 @@ public class Item {
         return price - calculateDiscountAmount();
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -92,4 +102,6 @@ public class Item {
                 ", finalPrice=" + calculateFinalPrice() +
                 '}';
     }
+
+
 }

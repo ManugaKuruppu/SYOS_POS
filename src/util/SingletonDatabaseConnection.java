@@ -30,4 +30,12 @@ public class SingletonDatabaseConnection {
         }
         return connection;
     }
+
+
+    public static synchronized void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+            System.out.println("Database connection closed.");
+        }
+    }
 }

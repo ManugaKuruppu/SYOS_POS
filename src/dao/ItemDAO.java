@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDAO {
     private Connection connection;
@@ -48,5 +50,92 @@ public class ItemDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // Method to fetch all items
+    public List<Item> getAllItems() {
+        String query = "SELECT * FROM Items";
+        List<Item> items = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Item item = new Item();
+                item.setItemCode(rs.getString("item_code"));
+                item.setItemName(rs.getString("item_name"));
+                item.setCategoryId(rs.getInt("category_id"));
+                item.setPrice(rs.getDouble("price"));
+                item.setDiscount(rs.getDouble("discount"));
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
+    // Method to fetch items to be reshelved (quantity < 50)
+    public List<Item> getItemsToReshelve() {
+        String query = "SELECT * FROM Items WHERE quantity < 50";
+        List<Item> items = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Item item = new Item();
+                item.setItemCode(rs.getString("item_code"));
+                item.setItemName(rs.getString("item_name"));
+                item.setCategoryId(rs.getInt("category_id"));
+                item.setPrice(rs.getDouble("price"));
+                item.setDiscount(rs.getDouble("discount"));
+                item.setQuantity(rs.getInt("quantity"));
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
+    // Method to fetch items that need to be reordered (quantity < 50)
+    public List<Item> getReorderItems() {
+        String query = "SELECT * FROM Items WHERE quantity < 50";
+        List<Item> items = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Item item = new Item();
+                item.setItemCode(rs.getString("item_code"));
+                item.setItemName(rs.getString("item_name"));
+                item.setCategoryId(rs.getInt("category_id"));
+                item.setPrice(rs.getDouble("price"));
+                item.setDiscount(rs.getDouble("discount"));
+                item.setQuantity(rs.getInt("quantity"));
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
+    // Method to fetch current stock
+    public List<Item> getCurrentStock() {
+        String query = "SELECT * FROM Items";
+        List<Item> items = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Item item = new Item();
+                item.setItemCode(rs.getString("item_code"));
+                item.setItemName(rs.getString("item_name"));
+                item.setCategoryId(rs.getInt("category_id"));
+                item.setPrice(rs.getDouble("price"));
+                item.setDiscount(rs.getDouble("discount"));
+                item.setQuantity(rs.getInt("quantity"));
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
     }
 }

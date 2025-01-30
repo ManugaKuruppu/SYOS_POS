@@ -10,7 +10,18 @@ public class BillItem {
     private String itemName;
     private double discount; // Discount percentage
 
+    public BillItem(String itemCode, String itemName, int quantity, double price, double discount, double totalPrice) {
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.quantity = quantity;
+        this.price = price;
+        this.discount = discount;
+        this.totalPrice = totalPrice;
+    }
 
+    // Default constructor
+    public BillItem() {
+    }
 
     // Getters and setters
     public int getBillItemId() {
@@ -91,4 +102,6 @@ public class BillItem {
         double discountAmount = itemTotal * (discount / 100);
         return itemTotal - discountAmount;
     }
+
+
 }

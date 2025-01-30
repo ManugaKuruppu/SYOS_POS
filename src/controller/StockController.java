@@ -13,12 +13,20 @@ public class StockController {
     private Scanner scanner;
     private StockObserver stockObserver;
 
+    public StockController(StockService stockService, Scanner scanner, StockObserver stockObserver) {
+        this.stockService = stockService;
+        this.scanner = scanner;
+        this.stockObserver = stockObserver;
+        stockService.registerObserver(stockObserver);
+    }
+
     public StockController() {
         stockService = new StockService();
         scanner = new Scanner(System.in);
         stockObserver = new StockObserver();
         stockService.registerObserver(stockObserver);
     }
+
 
     public void manageStock() {
         System.out.print("Enter item code: ");
