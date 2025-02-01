@@ -13,10 +13,12 @@ import java.util.List;
 public class ItemDAO {
     private Connection connection;
 
+    // Constructor initializes the database connection using the singleton pattern
     public ItemDAO() {
         connection = SingletonDatabaseConnection.getConnection();
     }
 
+    // Method to add a new item to the database
     public boolean addItem(Item item) {
         String query = "INSERT INTO Items (item_code, item_name, category_id, price, discount) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -32,6 +34,7 @@ public class ItemDAO {
         }
     }
 
+    // Method to retrieve an item by its code
     public Item getItemByCode(String code) {
         String query = "SELECT * FROM Items WHERE item_code = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -44,7 +47,7 @@ public class ItemDAO {
                 item.setCategoryId(rs.getInt("category_id"));
                 item.setPrice(rs.getDouble("price"));
                 item.setDiscount(rs.getDouble("discount"));
-                return item;
+                return item; // Return the retrieved item
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,7 +55,7 @@ public class ItemDAO {
         return null;
     }
 
-    // Method to fetch all items
+    // Method to fetch all items from the database
     public List<Item> getAllItems() {
         String query = "SELECT * FROM Items";
         List<Item> items = new ArrayList<>();
@@ -65,7 +68,7 @@ public class ItemDAO {
                 item.setCategoryId(rs.getInt("category_id"));
                 item.setPrice(rs.getDouble("price"));
                 item.setDiscount(rs.getDouble("discount"));
-                items.add(item);
+                items.add(item); // Add each item to the list
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,7 +76,7 @@ public class ItemDAO {
         return items;
     }
 
-    // Method to fetch items to be reshelved (quantity < 50)
+    // Method to fetch items that need to be reshelved (quantity < 50)
     public List<Item> getItemsToReshelve() {
         String query = "SELECT * FROM Items WHERE quantity < 50";
         List<Item> items = new ArrayList<>();
@@ -109,7 +112,7 @@ public class ItemDAO {
                 item.setPrice(rs.getDouble("price"));
                 item.setDiscount(rs.getDouble("discount"));
                 item.setQuantity(rs.getInt("quantity"));
-                items.add(item);
+                items.add(item); // Add each item to the list
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -117,7 +120,7 @@ public class ItemDAO {
         return items;
     }
 
-    // Method to fetch current stock
+    // Method to fetch the current stock of all items
     public List<Item> getCurrentStock() {
         String query = "SELECT * FROM Items";
         List<Item> items = new ArrayList<>();
@@ -131,7 +134,7 @@ public class ItemDAO {
                 item.setPrice(rs.getDouble("price"));
                 item.setDiscount(rs.getDouble("discount"));
                 item.setQuantity(rs.getInt("quantity"));
-                items.add(item);
+                items.add(item); // Add each item to the list
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -12,15 +12,18 @@ public class BillingController {
     private BillingService billingService;
     private Scanner scanner;
 
+    // Constructor initializes the BillingService and Scanner
     public BillingController() {
         billingService = new BillingService();
         scanner = new Scanner(System.in);
     }
 
+    // Starts the billing process
     public void startBilling() {
         List<String> itemCodes = new ArrayList<>();
         List<Integer> quantities = new ArrayList<>();
 
+        // Loop to collect item codes and quantities from the user
         while (true) {
             System.out.print("Enter item code (or 'done' to finish): ");
             String itemCode = scanner.nextLine();
@@ -43,8 +46,10 @@ public class BillingController {
         System.out.print("Enter cash tendered: ");
         double cashTendered = Double.parseDouble(scanner.nextLine());
 
+        // Complete the bill with the cash tendered
         Bill completedBill = billingService.completeBill(preparedBill, cashTendered);
 
+        // Check if the bill was completed successfully and display the final bill
         if (completedBill != null) {
             System.out.println("Bill completed successfully.");
             displayBill(completedBill);
@@ -53,6 +58,7 @@ public class BillingController {
         }
     }
 
+    // Displays the prepared bill before finalization
     public void displayPreparedBill(Bill bill) {
         System.out.println("\n================== BILL ==================");
         System.out.printf("%-10s %-15s %-10s %-10s %-10s %-10s%n", "Item Code", "Item Name", "Quantity", "Price", "Discount", "Total");
@@ -61,12 +67,12 @@ public class BillingController {
             System.out.printf("%-10s %-15s %-10d %-10.2f %-10.2f %-10.2f%n", item.getItemCode(), item.getItemName(), item.getQuantity(), item.getPrice(), item.getDiscountAmount(), item.getTotalPrice());
         }
         System.out.println("------------------------------------------");
-
         System.out.printf("%-25s %-10.2f%n", "Final Total:", bill.getFinalTotal());
         System.out.println("==========================================");
     }
 
-     public void displayBill(Bill bill) {
+    // Displays the final bill after completion
+    public void displayBill(Bill bill) {
         System.out.println("\n================== BILL ==================");
         System.out.println("Bill ID: " + bill.getBillId());
         System.out.println("==========================================");
@@ -76,13 +82,10 @@ public class BillingController {
             System.out.printf("%-10s %-15s %-10d %-10.2f %-10.2f %-10.2f%n", item.getItemCode(), item.getItemName(), item.getQuantity(), item.getPrice(), item.getDiscountAmount(), item.getTotalPrice());
         }
         System.out.println("------------------------------------------");
-
         System.out.printf("%-25s %-10.2f%n", "Final Total:", bill.getFinalTotal());
         System.out.printf("%-25s %-10.2f%n", "Total Discount:", bill.getTotalDiscount());
         System.out.printf("%-25s %-10.2f%n", "Cash Tendered:", bill.getCashTendered());
         System.out.printf("%-25s %-10.2f%n", "Change Amount:", bill.getChangeAmount());
         System.out.println("==========================================");
     }
-
-
 }

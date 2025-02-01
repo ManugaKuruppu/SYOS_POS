@@ -23,7 +23,6 @@ public class UserController {
         String username = scanner.nextLine();
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
-        // In a real application, hash the password before storing it
 
         if (userDAO.registerUser(username, password)) {
             System.out.println("Registration successful!");
